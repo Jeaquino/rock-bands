@@ -27,11 +27,35 @@ module.exports = {
       descuento: {
         type: Sequelize.INTEGER
       },
-      genero_id: {
-        type: Sequelize.INTEGER
+      genre_id: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        references: {
+          model: {
+            tableName: 'genres'
+          },
+          key: 'id',
+        },
       },
-      banda_id: {
-        type: Sequelize.INTEGER
+      artist_id: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        references: {
+          model: {
+            tableName: 'artists'
+          },
+          key: 'id',
+        },
+      },
+      categoria_id: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        references: {
+          model: {
+            tableName: 'categories'
+          },
+          key: 'id',
+        }
       },
       marca: {
         type: Sequelize.STRING

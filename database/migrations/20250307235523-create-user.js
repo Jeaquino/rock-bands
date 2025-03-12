@@ -10,10 +10,13 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       nombre: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: true
       },
       correo: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
       },
       contrasena: {
         type: Sequelize.STRING
@@ -22,7 +25,13 @@ module.exports = {
         type: Sequelize.STRING
       },
       rol_id: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: {
+            tableName: 'rols'
+          },
+          key: 'id',
+        },
       },
       nick_name: {
         type: Sequelize.STRING
