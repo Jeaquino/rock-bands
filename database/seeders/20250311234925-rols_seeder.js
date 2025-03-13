@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
@@ -8,32 +8,30 @@ module.exports = {
      *
      * Example:
      **/
-    await queryInterface.bulkInsert('Rols', [
-      {
-        name: 'Admin',
-        created_at: new Date(),
-        updated_at: new Date()
-      },
-      {
-        name: 'Auditor',
-        created_at: new Date(),
-        updated_at: new Date()
-      },
-      {
-        name: 'User',
-        created_at: new Date(),
-        updated_at: new Date()
-      }
-    ], {});
-
+    await queryInterface.bulkInsert(
+      "Rols",
+      [
+        {
+          name: "admin",
+          created_at: new Date(),
+          updated_at: new Date(),
+        },
+        {
+          name: "auditor",
+          created_at: new Date(),
+          updated_at: new Date(),
+        },
+        {
+          name: "user",
+          created_at: new Date(),
+          updated_at: new Date(),
+        },
+      ],
+      {}
+    );
   },
 
   async down(queryInterface, Sequelize) {
-    /**
-     * Add commands to revert seed here.
-     
-     * Example:
-     */ await queryInterface.bulkDelete('Rols', null, {});
-
-  }
+    await queryInterface.bulkDelete("Rols", null, {});
+  },
 };
