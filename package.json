@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node --env-file=.env --watch ./bin/www",
-    "dbreset": "sequelize db:drop && sequelize db:create && sequelize db:migrate",
-    "dbinit": "sequelize db:create && sequelize db:migrate"
+    "dbreset": "sequelize db:drop && sequelize db:create && sequelize db:migrate && sequelize db:seed:all",
+    "dbinit": "sequelize db:create && sequelize db:migrate && sequelize db:seed:all"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
