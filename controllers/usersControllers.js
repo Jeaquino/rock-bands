@@ -1,44 +1,41 @@
-const path = require("path");
-const directory = path.join(__dirname, "../db/users.json");
+const { User } = require("../database/models");
 const { validationResult } = require("express-validator");
 const bcrypt = require("bcrypt");
-const {User} = require('../database/models');
-const {
-  readFile,
-  writeFile,
-  parseFile,
-  stringifyFile,
-} = require("../utils/filesystem");
 const { v4: uuidv4 } = require("uuid");
-const { log } = require("console");
 
 const usersControllers = {
   login: (req, res, next) => {
     res.render("users/login", { title: "Login" });
   },
-  processLogin: (req, res, next) => {
+  processLogin: async (req, res, next) => {
     const { correo } = req.body;
-    const users = parseFile(readFile(directory));
-    const errores = validationResult(req);
-    if (errores.array().length > 0) {
-      res.render("users/login", {
-        errores: errores.mapped(),
-        correo,
-      });
-    } else {
-      const user = users.find((user) => user.correo === correo);
-      const { nombre, id, avatar } = user;
-      console.log(id);
+    try {
+      const errores = validationResult(req);
+      if (errores.array().length > 0) {
+        res.render("users/login", {
+          errores: errores.mapped(),
+          correo,
+        });
+      } else {
+        const user = await User.findOne({ where: { correo } });
+        const { nombre, id, avatar } = user;
+        console.log(id);
 
-      req.session.user = { correo, nombre, id, avatar };
-      console.log("body", req.body);
+        req.session.user = { correo, nombre, id, avatar };
+        console.log("body", req.body);
 
-      if (req.body.recuerdame) {
-        res.cookie("user", { correo, nombre, id, avatar }, { maxAge: 1000 * 60 * 30 });
+        if (req.body.recuerdame) {
+          res.cookie(
+            "user",
+            { correo, nombre, id, avatar },
+            { maxAge: 1000 * 60 * 30 }
+          );
+        }
+        res.redirect(`/users/profile/${id}`);
       }
-      res.redirect(`/users/profile/${id}`);
-    }
+    } catch (error) {}
   },
+  
   logout: (req, res) => {
     req.session.destroy();
     res.clearCookie("user");
@@ -87,24 +84,37 @@ const usersControllers = {
     const id = req.params.id;
     try {
       const user = users.find((user) => user.id === id);
-      const response = await fetch("https://apis.datos.gob.ar/georef/api/provincias");
+      const response = await fetch(
+        "https://apis.datos.gob.ar/georef/api/provincias"
+      );
       log("response: ", response);
-      
+
       if (!response.ok) {
         throw new Error("Hubo un problema con la peticion");
       }
-      
+
       const data = await response.json();
-      const provincias = data.provincias.sort((a, b) => a.nombre.localeCompare(b.nombre));
+      const provincias = data.provincias.sort((a, b) =>
+        a.nombre.localeCompare(b.nombre)
+      );
       const idProvincia = user.provincia ? user.provincia : provincias[0].id;
 
-      const responseLocalidades = await fetch(`https://apis.datos.gob.ar/georef/api/localidades?provincia=${idProvincia}&max=500`);
+      const responseLocalidades = await fetch(
+        `https://apis.datos.gob.ar/georef/api/localidades?provincia=${idProvincia}&max=500`
+      );
       const dataLocalidades = await responseLocalidades.json();
-      const localidades = dataLocalidades.localidades.sort((a, b) => a.nombre.localeCompare(b.nombre));
+      const localidades = dataLocalidades.localidades.sort((a, b) =>
+        a.nombre.localeCompare(b.nombre)
+      );
 
-      res.render("users/profile", { title: "Perfil", user, provincias, localidades });
+      res.render("users/profile", {
+        title: "Perfil",
+        user,
+        provincias,
+        localidades,
+      });
     } catch (error) {
-      console.log("error: ", error);      
+      console.log("error: ", error);
       res.render("error", error);
     }
   },
@@ -112,7 +122,7 @@ const usersControllers = {
     console.log("file: ", req.file);
 
     const users = parseFile(readFile(directory));
-    console.log("body:",req.body);
+    console.log("body:", req.body);
     const id = req.params.id;
     const user = users.find((user) => user.id === id);
     req.body.id = id;
@@ -127,7 +137,7 @@ const usersControllers = {
 
     const index = users.findIndex((user) => user.id === id);
     users[index] = req.body;
-    //$2b$10$9dcrAsG4z0Ib78dU/GSyKOFny8bWajoiI7mJnDBmK9UTyc2GEJuUK  
+    //$2b$10$9dcrAsG4z0Ib78dU/GSyKOFny8bWajoiI7mJnDBmK9UTyc2GEJuUK
     writeFile(directory, stringifyFile(users));
     res.send(req.body);
   },
@@ -139,8 +149,7 @@ const usersControllers = {
     const newUsers = users.filter((user) => user.id !== id);
     writeFile(directory, stringifyFile(newUsers));
     res.redirect("/users/register");
-
-  }
+  },
 };
 
 module.exports = usersControllers;
