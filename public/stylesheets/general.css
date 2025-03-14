@@ -3,30 +3,31 @@
 @import './footer.css';
 @import './register.css';
 @import './login.css';
+@import './style.css';
+@import url('https://fonts.googleapis.com/css2?family=Abel&family=Bebas+Neue&family=Playwrite+VN:wght@100..400&display=swap');
 
 :root {
     color-scheme: light dark;
-    --color-primary: #FFFCF2;
-    --color-secondary: #CCC5B9;
-    --color-tertiary: #6b6660;
-    --color-quaternary: #0BACED;
-    --color-quinary: #EB5E28;
+    --black-color: #0f0f0f;
+    --white-color: #fefefe;
+    --grey-color: #2a2828;
+    --yellow-color: #f7c331;
+    --blue-color: #093f85;
 }
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    text-decoration: none;
+    list-style: none;
 }
 
 body {
     font-family: 'Roboto', sans-serif;
-    background-color: var(--color-primary);
-    color: var(--color-tertiary);
-    padding: 50px;
+    background-color: #0f0f0f;
+    color: var(--white-color);
     font-size: 14px;
-    align-items: center;
-    text-align: center;
 }
 
 a {
