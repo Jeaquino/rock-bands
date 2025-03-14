@@ -1,4 +1,3 @@
-const {Artist} = require('../database/models');
 
 const bandasController = {
     listado: (req, res) => {
