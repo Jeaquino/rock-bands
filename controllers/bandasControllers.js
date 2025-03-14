@@ -1,4 +1,5 @@
-const db = require('../db/index');
+const {Artist} = require('../database/models');
+
 const bandasController = {
     listado: (req, res) => {
         res.render('bandas/listadoBandas', { bandas: db.lista });

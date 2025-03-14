@@ -1,9 +1,5 @@
 const {body} = require('express-validator');
-const {readFile, parseFile} = require('../utils/filesystem');
-const path = require("path");
-const { log } = require('console');
-const directory = path.join(__dirname, "../db/users.json");
-const users = parseFile(readFile(directory));
+const {User} = require('../database/models');
 
 module.exports = [
     body('nombre').notEmpty().withMessage('El campo no puede estar vacio').bail().trim()

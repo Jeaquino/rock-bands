@@ -1,9 +1,6 @@
 const { body } = require('express-validator');
-const { readFile, parseFile } = require('../utils/filesystem');
-const path = require("path");
-const directory = path.join(__dirname, "../db/users.json");
-const users = parseFile(readFile(directory));
 const bcrypt = require("bcrypt");
+const {User} = require('../database/models');
 
 async function comparePass(pass, hash) {
     return await bcrypt.compare(pass, hash);
@@ -12,13 +9,20 @@ async function comparePass(pass, hash) {
 module.exports = [
     body('correo').notEmpty().withMessage('El campo no puede estar vacio').bail()
         .isEmail().withMessage('El campo debe ser un correo').bail()
-        .custom(value => {
-            const user = users.find(user => user.correo === value);
+        .custom(async value => {
+            try {
+                const user = await User.findOne({ where: { correo: value } });
 
-            if (!user) {
+                if (!user) {
+                    throw new Error('Las credenciales no son validas');
+                }
+
+                return true;
+            }
+            catch (error) {
+                console.log(error);
                 throw new Error('Las credenciales no son validas');
             }
-            return true;
         }).bail(),
 
     body('contrasena').notEmpty().withMessage('El campo no puede estar vacio').bail()
