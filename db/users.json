@@ -2,80 +2,80 @@
   {
     "nombre": "Juan Pérez",
     "correo": "juan.perez@email.com",
-    "contrasena": "password123",
-    "profile": "usuario.jpg",
+    "contrasena": "Password123!",
+    "avatar": "usuario.jpg",
     "rol_id": 1,
     "nick_name": "juanito"
   },
   {
     "nombre": "María Gómez",
     "correo": "maria.gomez@email.com",
-    "contrasena": "securePass2023",
-    "profile": "admin.jpg",
+    "contrasena": "SecurePass@23",
+    "avatar": "admin.jpg",
     "rol_id": 2,
     "nick_name": "mariag"
   },
   {
     "nombre": "Carlos López",
     "correo": "carlos.lopez@email.com",
-    "contrasena": "abc123!",
-    "profile": "editor.png",
+    "contrasena": "Abc123!_",
+    "avatar": "editor.png",
     "rol_id": 3,
     "nick_name": "carlitos"
   },
   {
     "nombre": "Ana Martínez",
     "correo": "ana.martinez@email.com",
-    "contrasena": "passwordAna",
-    "profile": "moderador.jpg",
+    "contrasena": "Password@Ana1",
+    "avatar": "moderador.jpg",
     "rol_id": 2,
     "nick_name": "anam"
   },
   {
     "nombre": "Luis Fernández",
     "correo": "luis.fernandez@email.com",
-    "contrasena": "luis2023*",
-    "profile": "perfil.png",
+    "contrasena": "Luis@2023*",
+    "avatar": "perfil.png",
     "rol_id": 3,
     "nick_name": "luisito"
   },
   {
     "nombre": "Cecilia Rojas",
     "correo": "cecilia.rojas@email.com",
-    "contrasena": "ceciSecure",
-    "profile": "supervisor.png",
+    "contrasena": "Ceci@Secure1",
+    "avatar": "supervisor.png",
     "rol_id": 1,
     "nick_name": "ceci"
   },
   {
     "nombre": "Diego Torres",
     "correo": "diego.torres@email.com",
-    "contrasena": "diego@123",
-    "profile": "gerente.jpg",
+    "contrasena": "Diego@123_!",
+    "avatar": "gerente.jpg",
     "rol_id": 2,
     "nick_name": "diegot"
   },
   {
     "nombre": "Laura Vidal",
     "correo": "laura.vidal@email.com",
-    "contrasena": "vidal321",
-    "profile": "coordinador.jpg",
+    "contrasena": "Vidal_321@",
+    "avatar": "coordinador.jpg",
     "rol_id": 3,
     "nick_name": "laurav"
   },
   {
     "nombre": "Jorge Castillo",
     "correo": "jorge.castillo@email.com",
-    "contrasena": "jorgeC#2023",
-    "profile": "soporte.jpg",
+    "contrasena": "JorgeC#2023!",
+    "avatar": "soporte.jpg",
     "rol_id": 2,
     "nick_name": "jcastillo"
   },
   {
     "nombre": "Isabel Morales",
     "correo": "isabel.morales@email.com",
-    "contrasena": "moralesX2023",
-    "profile": "dev.jpg",
+    "contrasena": "Morales@X23",
+    "avatar": "dev.jpg",
     "rol_id": 3,
     "nick_name": "isamor"
   }

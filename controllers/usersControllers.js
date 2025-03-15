@@ -12,6 +12,8 @@ const usersControllers = {
     try {
       const errores = validationResult(req);
       if (errores.array().length > 0) {
+        console.log("errores: ", errores.mapped());
+
         res.render("users/login", {
           errores: errores.mapped(),
           correo,
@@ -35,7 +37,7 @@ const usersControllers = {
       }
     } catch (error) {}
   },
-  
+
   logout: (req, res) => {
     req.session.destroy();
     res.clearCookie("user");
@@ -44,9 +46,8 @@ const usersControllers = {
   register: function (req, res, next) {
     res.render("users/register", { title: "registro de usuario" });
   },
-  store: function (req, res, next) {
+  store: (req, res, next) => {
     try {
-      const users = parseFile(readFile(directory));
       const { nombre, correo, contrasena } = req.body;
       const errores = validationResult(req);
 
@@ -58,36 +59,36 @@ const usersControllers = {
           contrasena,
         });
       } else {
-        bcrypt.hash(contrasena, 10, function (err, hash) {
+        bcrypt.hash(contrasena, 10, async function (err, hash) {
           if (err) {
             console.log("error en el hash", err);
+            throw new Error("Error en el hash");
           }
 
-          users.push({
-            id: uuidv4(),
+          await User.create({
             nombre,
             correo,
             contrasena: hash,
+            rol_id: 3,
           });
-
-          writeFile(directory, stringifyFile(users));
 
           res.redirect("/users/login");
         });
       }
     } catch (error) {
       console.log("el error capturado: ", error);
+      res.render("error", error);
     }
   },
+
   profile: async (req, res) => {
-    const users = parseFile(readFile(directory));
     const id = req.params.id;
     try {
-      const user = users.find((user) => user.id === id);
+      const user = await User.findByPk(id);
       const response = await fetch(
         "https://apis.datos.gob.ar/georef/api/provincias"
       );
-      log("response: ", response);
+      console.log("response: ", response);
 
       if (!response.ok) {
         throw new Error("Hubo un problema con la peticion");
@@ -118,37 +119,41 @@ const usersControllers = {
       res.render("error", error);
     }
   },
-  update: (req, res) => {
-    console.log("file: ", req.file);
-
-    const users = parseFile(readFile(directory));
-    console.log("body:", req.body);
+  update: async (req, res) => {
     const id = req.params.id;
-    const user = users.find((user) => user.id === id);
-    req.body.id = id;
-    req.body.avatar = req.file ? req.file.filename : user.avatar;
-    if (req.body.contrasena && req.body.contrasena2) {
-      req.body.contrasena = bcrypt.hashSync(req.body.contrasena, 10);
-    } else {
-      req.body.contrasena = user.contrasena;
+    try {
+      const user = await User.findByPk(id);
+
+      req.body.avatar = req.file ? req.file.filename : user.avatar;
+      if (req.body.contrasena && req.body.contrasena2) {
+        req.body.contrasena = bcrypt.hashSync(req.body.contrasena, 10);
+      } else {
+        req.body.contrasena = user.contrasena;
+      }
+
+      delete req.body.contrasena2;
+
+      await User.update(req.body, {
+        where: { id },
+      });
+
+      res.send(req.body);
+    } catch (error) {
+      console.log("error: ", error);
+      res.render("error", error);
     }
-
-    delete req.body.contrasena2;
-
-    const index = users.findIndex((user) => user.id === id);
-    users[index] = req.body;
-    //$2b$10$9dcrAsG4z0Ib78dU/GSyKOFny8bWajoiI7mJnDBmK9UTyc2GEJuUK
-    writeFile(directory, stringifyFile(users));
-    res.send(req.body);
   },
-  deleteUser: (req, res) => {
-    req.session.destroy();
-    res.clearCookie("user");
-    const users = parseFile(readFile(directory));
-    const id = req.params.id;
-    const newUsers = users.filter((user) => user.id !== id);
-    writeFile(directory, stringifyFile(newUsers));
-    res.redirect("/users/register");
+  deleteUser: async (req, res) => {
+    try {
+      req.session.destroy();
+      res.clearCookie("user");
+      const id = req.params.id;
+      await User.destroy({ where: { id } });
+      res.redirect("/users/register");
+    } catch (error) {
+      console.log("error: ", error);
+      res.render("error", error);
+    }
   },
 };
 

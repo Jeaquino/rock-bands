@@ -11,9 +11,8 @@ module.exports = [
 
     body('correo').notEmpty().withMessage('El campo no puede estar vacio').bail()
     .isEmail().withMessage('El campo debe ser un correo').bail()
-    .custom((value) => {
-        console.log("value:",value);
-        const user = users.find(user => user.correo === value);
+    .custom(async (value) => {
+        const user = await User.findOne({where:{correo:value}});
         console.log("user:",user);
         if (user) {
             throw new Error('El usuario ya existe');
