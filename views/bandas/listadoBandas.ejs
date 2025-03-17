@@ -1,18 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <% bandas.forEach(grupo => {  %>
-        <div>
-            <h2><%= grupo.nombre %></h2>
-            <a href="/bandas/detail/<%= grupo.id %>">
-                <img src="/<%= grupo.cover %>" alt="Se muestra la imagen de la banda <%= grupo.nombre %>">
-            </a>
-        </div>
-    <%  }); %>
-</body>
-</html>
+<%- include('../partial/head',{title:"Bandas"}) %>
+
+    <body>
+        <%- include('../partial/header') %>
+        <main id="bandas_list">
+            <div class="list">
+                <% bandas.forEach(grupo=> { %>
+                    <article>
+                        <h2>
+                            <%= grupo.nombre %>
+                        </h2>
+                        <a href="/bandas/detail/<%= grupo.id %>">
+                            <img src="/<%= grupo.cover %>" alt="Se muestra la imagen de la banda <%= grupo.nombre %>">
+                        </a>
+                    </article>
+                <% }); %>
+            </div>
+        </main>
+    </body>
+
+    </html>

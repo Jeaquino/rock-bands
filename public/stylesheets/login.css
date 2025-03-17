@@ -78,6 +78,7 @@
             border: none;
             background-color: #2a2828;
             transition: .5s ease;
+            cursor: pointer;
 
             &:hover {
                 background-color: #dadada;

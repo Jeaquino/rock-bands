@@ -4,6 +4,7 @@
 @import './register.css';
 @import './login.css';
 @import './style.css';
+@import './bandas_list.css';
 @import url('https://fonts.googleapis.com/css2?family=Abel&family=Bebas+Neue&family=Playwrite+VN:wght@100..400&display=swap');
 
 :root {
@@ -13,6 +14,10 @@
     --grey-color: #2a2828;
     --yellow-color: #f7c331;
     --blue-color: #093f85;
+
+    --gap: 16px;
+    --num-cols: 4;
+    --row-hight: 300px;
 }
 
 * {
