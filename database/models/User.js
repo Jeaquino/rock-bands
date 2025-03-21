@@ -25,7 +25,11 @@ module.exports = (sequelize, DataTypes) => {
     }
     
     static associate(models) {
-      // define association here
+      User.hasMany(models.Address, {
+        foreignKey: 'user_id',
+        as: 'address',
+        onDelete: 'CASCADE',
+      });
     }
   }
   User.init({
@@ -34,7 +38,10 @@ module.exports = (sequelize, DataTypes) => {
     contrasena: DataTypes.STRING,
     avatar: DataTypes.STRING,
     rol_id: DataTypes.INTEGER,
-    nick_name: DataTypes.STRING
+    nick_name: DataTypes.STRING,
+    fecha_nacimiento: DataTypes.DATE,
+    dni: DataTypes.INTEGER,
+    hobby: DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'User',

@@ -5,7 +5,9 @@
     "contrasena": "Password123!",
     "avatar": "usuario.jpg",
     "rol_id": 1,
-    "nick_name": "juanito"
+    "nick_name": "juanito",
+    "fecha_nacimiento": "1990-01-15",
+    "dni": 12345678
   },
   {
     "nombre": "María Gómez",
@@ -13,7 +15,9 @@
     "contrasena": "SecurePass@23",
     "avatar": "admin.jpg",
     "rol_id": 2,
-    "nick_name": "mariag"
+    "nick_name": "mariag",
+    "fecha_nacimiento": "1988-05-22",
+    "dni": 23456789
   },
   {
     "nombre": "Carlos López",
@@ -21,7 +25,9 @@
     "contrasena": "Abc123!_",
     "avatar": "editor.png",
     "rol_id": 3,
-    "nick_name": "carlitos"
+    "nick_name": "carlitos",
+    "fecha_nacimiento": "1992-07-09",
+    "dni": 34567890
   },
   {
     "nombre": "Ana Martínez",
@@ -29,7 +35,9 @@
     "contrasena": "Password@Ana1",
     "avatar": "moderador.jpg",
     "rol_id": 2,
-    "nick_name": "anam"
+    "nick_name": "anam",
+    "fecha_nacimiento": "1995-03-10",
+    "dni": 45678901
   },
   {
     "nombre": "Luis Fernández",
@@ -37,7 +45,9 @@
     "contrasena": "Luis@2023*",
     "avatar": "perfil.png",
     "rol_id": 3,
-    "nick_name": "luisito"
+    "nick_name": "luisito",
+    "fecha_nacimiento": "1989-12-01",
+    "dni": 56789012
   },
   {
     "nombre": "Cecilia Rojas",
@@ -45,7 +55,9 @@
     "contrasena": "Ceci@Secure1",
     "avatar": "supervisor.png",
     "rol_id": 1,
-    "nick_name": "ceci"
+    "nick_name": "ceci",
+    "fecha_nacimiento": "1991-11-18",
+    "dni": 67890123
   },
   {
     "nombre": "Diego Torres",
@@ -53,7 +65,9 @@
     "contrasena": "Diego@123_!",
     "avatar": "gerente.jpg",
     "rol_id": 2,
-    "nick_name": "diegot"
+    "nick_name": "diegot",
+    "fecha_nacimiento": "1987-08-30",
+    "dni": 78901234
   },
   {
     "nombre": "Laura Vidal",
@@ -61,7 +75,9 @@
     "contrasena": "Vidal_321@",
     "avatar": "coordinador.jpg",
     "rol_id": 3,
-    "nick_name": "laurav"
+    "nick_name": "laurav",
+    "fecha_nacimiento": "1993-04-25",
+    "dni": 89012345
   },
   {
     "nombre": "Jorge Castillo",
@@ -69,7 +85,9 @@
     "contrasena": "JorgeC#2023!",
     "avatar": "soporte.jpg",
     "rol_id": 2,
-    "nick_name": "jcastillo"
+    "nick_name": "jcastillo",
+    "fecha_nacimiento": "1990-06-14",
+    "dni": 90123456
   },
   {
     "nombre": "Isabel Morales",
@@ -77,6 +95,8 @@
     "contrasena": "Morales@X23",
     "avatar": "dev.jpg",
     "rol_id": 3,
-    "nick_name": "isamor"
+    "nick_name": "isamor",
+    "fecha_nacimiento": "1996-09-20",
+    "dni": 11223344
   }
 ]

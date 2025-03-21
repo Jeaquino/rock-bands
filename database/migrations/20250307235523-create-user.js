@@ -39,6 +39,12 @@ module.exports = {
       nick_name: {
         type: Sequelize.STRING
       },
+      fecha_nacimiento: {
+        type: Sequelize.DATE
+      },
+      dni: {
+        type: Sequelize.INTEGER
+      },
       created_at: {
         allowNull: false,
         type: Sequelize.DATE
