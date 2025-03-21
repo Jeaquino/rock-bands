@@ -1,4 +1,4 @@
-const { User } = require("../database/models");
+const { User, Address } = require("../database/models");
 const { validationResult } = require("express-validator");
 const bcrypt = require("bcrypt");
 const { v4: uuidv4 } = require("uuid");
@@ -84,7 +84,10 @@ const usersControllers = {
   profile: async (req, res) => {
     const id = req.params.id;
     try {
-      const user = await User.findByPk(id);
+      const user = await User.findByPk(id, {
+        exclude: ["created_at", "updated_at"],
+        include: ["address"]
+      });
       const response = await fetch(
         "https://apis.datos.gob.ar/georef/api/provincias"
       );
@@ -108,6 +111,7 @@ const usersControllers = {
         a.nombre.localeCompare(b.nombre)
       );
 
+      res.send(user);
       res.render("users/profile", {
         title: "Perfil",
         user,
@@ -122,7 +126,7 @@ const usersControllers = {
   update: async (req, res) => {
     const id = req.params.id;
     try {
-      const user = await User.findByPk(id);
+      const user = await User.findByPk(id, { include: ["address"] });
 
       req.body.avatar = req.file ? req.file.filename : user.avatar;
       if (req.body.contrasena && req.body.contrasena2) {
@@ -137,7 +141,48 @@ const usersControllers = {
         where: { id },
       });
 
-      res.send(req.body);
+      if (
+        req.body.calle &&
+        req.body.altura &&
+        req.body.localidad &&
+        req.body.provincia &&
+        req.body.cp
+      ) {
+        if (user.address.length > 0) {
+          await Address.update(
+            {
+              calle: req.body.calle,
+              altura: req.body.altura,
+              localidad: req.body.localidad,
+              provincia: req.body.provincia,
+              cp: req.body.cp,
+            },
+            {
+              where: { user_id: id },
+            }
+          );
+        } else {
+          await Address.create({
+            calle: req.body.calle,
+            altura: req.body.altura,
+            localidad: req.body.localidad,
+            provincia: req.body.provincia,
+            cp: req.body.cp,
+            user_id: id,
+          });
+        }
+      }
+
+      const userUpdated = await User.findByPk(id, {
+        include: [
+          {
+            attributes: { 
+              exclude: ["createdAt", "updatedAt"]
+            }
+          }
+        ],
+      });
+      res.send(userUpdated);
     } catch (error) {
       console.log("error: ", error);
       res.render("error", error);
