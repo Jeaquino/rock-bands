@@ -1,8 +1,8 @@
 [
   {
     "nombre": "Juan Pérez",
-    "correo": "juan.perez@email.com",
     "contrasena": "Password123!",
+    "correo": "juan.perez@email.com",
     "avatar": "usuario.jpg",
     "rol_id": 1,
     "nick_name": "juanito",

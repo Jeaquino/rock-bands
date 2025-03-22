@@ -83,10 +83,17 @@ const usersControllers = {
 
   profile: async (req, res) => {
     const id = req.params.id;
+
     try {
       const user = await User.findByPk(id, {
-        exclude: ["created_at", "updated_at"],
-        include: ["address"]
+        attributes: { exclude: ["createdAt", "updatedAt"] },
+        include: [
+          {
+            association: "address",
+            attributes: { exclude: ["createdAt", "updatedAt"] },
+          },
+          // { association: "rol", attributes: ["name"] },
+        ],
       });
       const response = await fetch(
         "https://apis.datos.gob.ar/georef/api/provincias"
@@ -101,7 +108,7 @@ const usersControllers = {
       const provincias = data.provincias.sort((a, b) =>
         a.nombre.localeCompare(b.nombre)
       );
-      const idProvincia = user.provincia ? user.provincia : provincias[0].id;
+      const idProvincia = user.provincia_id ? user.provincia_id : provincias[0].id;
 
       const responseLocalidades = await fetch(
         `https://apis.datos.gob.ar/georef/api/localidades?provincia=${idProvincia}&max=500`
@@ -111,7 +118,7 @@ const usersControllers = {
         a.nombre.localeCompare(b.nombre)
       );
 
-      res.send(user);
+      console.log("localidades",localidades);
       res.render("users/profile", {
         title: "Perfil",
         user,
@@ -125,6 +132,10 @@ const usersControllers = {
   },
   update: async (req, res) => {
     const id = req.params.id;
+    const { localidad, provincia } = req.body;
+    const objLocalidad = JSON.parse(localidad);
+    const objProvincia = JSON.parse(provincia);
+
     try {
       const user = await User.findByPk(id, { include: ["address"] });
 
@@ -153,9 +164,10 @@ const usersControllers = {
             {
               calle: req.body.calle,
               altura: req.body.altura,
-              localidad: req.body.localidad,
-              provincia: req.body.provincia,
-              cp: req.body.cp,
+              localidad: objLocalidad.nombre,
+              provincia: objProvincia.nombre,
+              localidad_id: objLocalidad.id,
+              provincia_id: objProvincia.id,
             },
             {
               where: { user_id: id },
@@ -165,8 +177,10 @@ const usersControllers = {
           await Address.create({
             calle: req.body.calle,
             altura: req.body.altura,
-            localidad: req.body.localidad,
-            provincia: req.body.provincia,
+            localidad: objLocalidad.nombre,
+            provincia: objProvincia.nombre,
+            localidad_id: objLocalidad.id,
+            provincia_id: objProvincia.id,
             cp: req.body.cp,
             user_id: id,
           });
@@ -174,12 +188,13 @@ const usersControllers = {
       }
 
       const userUpdated = await User.findByPk(id, {
+        attributes: { exclude: ["createdAt", "updatedAt"] },
         include: [
           {
-            attributes: { 
-              exclude: ["createdAt", "updatedAt"]
-            }
-          }
+            association: "address",
+            attributes: { exclude: ["createdAt", "updatedAt"] },
+          },
+          // { association: "rol", attributes: ["name"] },
         ],
       });
       res.send(userUpdated);

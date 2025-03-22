@@ -1,7 +1,9 @@
 console.log("Aca en la vista de profile")
 
 const selectProvincias = document.getElementById("provincia");
-
+const botonAdd = document.getElementById("add");
+const botonEdit = document.getElementById("edit");
+const botonDelete = document.getElementById("delete");
 selectProvincias.addEventListener("change", async (e) => {
     console.log("valor captura del select", e);
     try {
