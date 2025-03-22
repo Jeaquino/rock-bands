@@ -2,175 +2,207 @@
 
   <body>
     <%- include('../partial/header') %>
-      <main>
-        <form action="/users/profile/<%=user.id%>?_method=PUT" method="post" enctype="multipart/form-data">
+      <main class="main-profile">
+        <h1>Perfil</h1>
+        <form action="/users/profile/<%=user.id%>?_method=PUT" method="post" enctype="multipart/form-data" id="form-profile">
+          <section>
+            <div>
 
-          <label for="name">Nombre</label>
-
-          <input type="text" name="nombre" id="name" min="6" max="50"
-            value="<%= locals.user && locals.user.nombre ? user.nombre : "" %>">
-          <% if(locals.errores && locals.errores.nombre) {%>
-            <p>
-              <%= errores.nombre.msg %>
-            </p>
-            <% } %>
+              <label for="name">Nombre</label>
+              
+              <input 
+              type="text" 
+              name="nombre" 
+              id="name" 
+              min="6" 
+              max="50"
+              value="<%= locals.user && locals.user.nombre ? user.nombre : "" %>"
+              />
+              <% if(locals.errores && locals.errores.nombre) {%>
+                <p> <%= errores.nombre.msg %></p>
+                <% } %>
+                
+            </div>
+            <div>
 
               <label for="email">Email</label>
-              <input type="email" name="correo" id="email" required
-                value="<%= locals.user && locals.user.correo ? user.correo : ""%>">
-
+              <input 
+              type="email" 
+              name="correo" 
+              id="email" 
+              required
+              value="<%= locals.user && locals.user.correo ? user.correo : ""%>
+              "/>
+              
               <% if(locals.errores && locals.errores.correo) {%>
-                <p>
-                  <%= errores.correo.msg %>
-                </p>
+                <p><%= errores.correo.msg %></p>
                 <% } %>
+                
+            </div>
+            <div>
+            <label for="dni">Ingrese DNI</label>
+            <input 
+              type="number" 
+              name="dni" 
+              id="dni"
+              value="<%= locals.user && locals.user.dni ? user.dni : ""%>"
+            />
+  
+            <% if(locals.errores && locals.errores.dni) {%>
+              <p><%= errores.dni.msg %></p>
+            <% } %>
 
-                  <label for="password">Contraseña</label>
-                  <input type="password" name="contrasena" id="password" value="">
+          </div>
+          </section>
+          <section>
 
-                  <% if(locals.errores && locals.errores.contrasena) {%>
-                    <p>
-                      <%= errores.contrasena.msg %>
-                    </p>
-                    <% } %>
+            <div>
+              <label for="password">Contraseña</label>
+              <input type="password" name="contrasena" id="password" value="">
+              
+              <% if(locals.errores && locals.errores.contrasena) {%>
+                <p> <%= errores.contrasena.msg %> </p>
+                <% } %>
+                
+                <label for="password">Confirmar contraseña</label>
+                <input 
+                type="password"  
+                name="contrasena2" 
+                id="password" 
+                value=""
+                />
+                
+                <label for="telefono">Telefono</label>
+                <input name="telefono" id="telefono" type="tel" value="<%= locals.user && locals.user.telefono ? user.telefono : ""%>"/>
+                <% if(locals.errores && locals.errores.telefono) {%>
+                  <p><%= errores.telefono.msg %></p>
+                  <% } %>
+            </div>
+          </section>
+          <section>
+            <div>
+              <label for="provincia">Provincia</label>
+              <select name="provincia" id="provincia">
+                <% provincias.forEach(provincia=> { %>
+                  <option value="<%=`{ "id":"${provincia.id}", "nombre":"${provincia.nombre}"}` %>" <%=locals.user && locals.user.address[0] && locals.user.address[0].provincia_id == provincia.id ? "selected" : "" %>>
+                    <%= provincia.nombre %>
+                  </option>
+                  <% }); %>
+                </select>
+                <% if(locals.errores && locals.errores.provincia) {%>
+                  <p><%= errores.provincia.msg %></p>
+                  <% } %>
+              </div>
+              
+              <div>
+                <label for="localidad">localidad</label>
+                <select name="localidad" id="localidad">
+            <% localidades.forEach(localidad=> { %>
+                <option value="<%=`{ "id":"${localidad.id}", "nombre":"${localidad.nombre}"}`%>" <%=locals.user && locals.user.address[0] && locals.user.address[0].localidad_id == localidad.id ? "selected" : "" %>><%=localidad.nombre%> </option>
+            <% }); %>
+          </select>
+          
+          <% if(locals.errores && locals.errores.localidad) {%>
+            <p><%= errores.localidad.msg %></p>
+            <% } %>
+          </div>
+          
+          <div>
+            <label for="calle">Calle</label>
+            <input 
+            type="text" 
+            name="calle" 
+            id="calle"
+            value="<%= locals.user && locals.user.address[0] ? user.address[0].calle : ""%>"
+            />
+            
+            <% if(locals.errores && locals.errores.calle) {%>
+              <p><%= errores.calle.msg %></p>
+              <% } %>
+            </div>
+            
+            <div>
+              <label for="altura">Altura</label>
+              <input 
+              type="text" 
+              name="altura" 
+              id="altura"
+              value="<%= locals.user && locals.user.address[0] ? user.address[0].altura : ""%>"
+              />
+              
+              <% if(locals.errores && locals.errores.altura) {%>
+                <p><%= errores.altura.msg %></p>
+                <% } %>
+              </div>
+              
+              <div>
+                <label for="cp">Codigo Postal</label>
+                <input 
+                type="text" 
+                name="cp" 
+                id="cp"
+                value="<%= locals.user && locals.user.address[0] ? user.address[0].cp : ""%>"
+                />
+                
+                <% if(locals.errores && locals.errores.cp) {%>
+                  <p><%= errores.cp.msg %></p>
+                  <% } %>
+                </div>
+          </section>
+          <input 
+            type="file" 
+            name="avatar" 
+            id="avatar"
+            accept=".jpg,.png "
+            value="<%= locals.user && locals.user.avatar ? user.avatar : ""%>"
+          />
+          <% if(locals.errores && locals.errores.avatar) {%>
+            <p><%= errores.avatar.msg %></p>
+          <% } %>
+          </div>                                         
+        <button type="submit">Actualizar</button>
+      </form>
 
-                      <label for="password">Confirmar contraseña</label>
-                      <input type="password" name="contrasena2" id="password" value="">
-
-                      <% if(locals.errores && locals.errores.avatar) {%>
-                        <p>
-                          <%= errores.avatar.msg %>
-                        </p>
-                        <% } %>
-
-
-                          <label for="dni">Ingrese numero de documento DNI</label>
-                          <input type="number" name="dni" id="dni"
-                            value="<%= locals.user && locals.user.dni ? user.dni : ""%>">
-
-                          <% if(locals.errores && locals.errores.dni) {%>
-                            <p>
-                              <%= errores.dni.msg %>
-                            </p>
-                            <% } %>
-
-                              <h2>Domicilios</h2>
-                              <button>Agregar</button>
-                              <% if(locals.user && locals.user.address.length>= 1 ) { %>
-                                <table>
-                                  <thead>
-                                    <tr>
-                                      <th>Provincia</th>
-                                      <th>Localidad</th>
-                                      <th>Calle</th>
-                                      <th>Altura</th>
-                                      <th>Codigo Postal</th>
-                                      <th>Acciones</th>
-                                    </tr>
-                                  </thead>
-                                  <tbody>
-                                    <% locals.user.address.forEach(address=>{ %>
-                                      <tr>
-                                        <td>
-                                          <%= address.provincia %>
-                                        </td>
-                                        <td>
-                                          <%= address.localidad %>
-                                        </td>
-                                        <td>
-                                          <%= address.calle %>
-                                        </td>
-                                        <td>
-                                          <%= address.altura %>
-                                        </td>
-                                        <td>
-                                          <%= address.cp %>
-                                        </td>
-                                        <td><button>edit</button> <button>eliminar</button></td>
-                                      </tr>
-                                      <% }); %>
-                                  </tbody>
-                                </table>
-                                <% } else { %>
-                                  <label for="provincia">Provincia</label>
-                                  <select name="provincia" id="provincia">
-                                    <% provincias.forEach(provincia=> { %>
-                                      <option value="<%= provincia.id %>" <%=locals.user && locals.user.address[0] && locals.user.address[0].provincia == provincia.id ? "selected" : "" %>>
-                                        <%= provincia.nombre %>
-                                      </option>
-                                    <% }); %>
-                                  </select>
-                                  <% if(locals.errores && locals.errores.provincia) {%>
-                                    <p>
-                                      <%= errores.provincia.msg %>
-                                    </p>
-                                  <% } %>
-
-                                      <label for="localidad">localidad</label>
-                                      <select name="localidad" id="localidad">
-                                        <% localidades.forEach(localidad=> { %>
-                                          <option value="<%= localidad.id %>" <%=locals.user && locals.user.address[0].localidad && locals.user.address[0].localidad==localidad.id ? "selected" : "" %>><%=localidad.nombre%> </option>
-                                          <% }); %>
-                                      </select>
-
-                                      <% if(locals.errores && locals.errores.localidad) {%>
-                                        <p>
-                                          <%= errores.localidad.msg %>
-                                        </p>
-                                        <% } %>
-
-                                          <label for="calle">Calle</label>
-                                          <input type="text" name="calle" id="calle"
-                                            value="<%= locals.user && locals.user.address[0].calle ? user.address[0].calle : ""%>">
-
-                                          <% if(locals.errores && locals.errores.calle) {%>
-                                            <p>
-                                              <%= errores.calle.msg %>
-                                            </p>
-                                            <% } %>
-
-                                              <label for="altura">Altura</label>
-                                              <input type="text" name="altura" id="altura"
-                                                value="<%= locals.user && locals.user.address[0].altura ? user.address[0].altura : ""%>">
-
-                                              <% if(locals.errores && locals.errores.altura) {%>
-                                                <p>
-                                                  <%= errores.altura.msg %>
-                                                </p>
-                                                <% } %>
-
-                                                  <label for="cp">Codigo Postal</label>
-                                                  <input type="text" name="cp" id="cp"
-                                                    value="<%= locals.user && locals.user.address[0].cp ? user.address[0].cp : ""%>">
-
-                                                  <% if(locals.errores && locals.errores.cp) {%>
-                                                    <p>
-                                                      <%= errores.cp.msg %>
-                                                    </p>
-                                                    <% } %>
-                                                      <% } %>
-                                                        <label for="telefono">telefono</label>
-                                                        <input type="number" name="telefono" id="telefono"
-                                                          value="<%= locals.user && locals.user.telefono ? user.telefono : ""%>">
-
-                                                        <% if(locals.errores && locals.errores.telefono) {%>
-                                                          <p>
-                                                            <%= errores.telefono.msg %>
-                                                          </p>
-                                                          <% } %>
-
-                                                            <input type="file" name="avatar" id="avatar"
-                                                              accept=".jpg,.png "
-                                                              value="<%= locals.user && locals.user.avatar ? user.avatar : ""%>">
-
-                                                            <button type="submit">Actualizar</button>
-        </form>
-
+      <section class="section-address-profile">
+        <h2>Domicilios</h2>
+        <% if(locals.user && locals.user.address.length>= 1 ) { %>        
+          <table>
+            <thead>
+              <tr>
+                <th>Provincia</th>
+                <th>Localidad</th>
+                <th>Calle</th>
+                <th>Altura</th>
+                <th>Codigo Postal</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% locals.user.address.forEach(address=>{ %>
+                <tr>
+                  <td><%= address.provincia %></td>
+                  <td><%= address.localidad %></td>
+                  <td><%= address.calle %></td>
+                  <td><%= address.altura %></td>
+                  <td><%= address.cp %></td>
+                  <td><button class="button-edit" id="edit">edit</button> <button class="button-remove" id="delete">eliminar</button></td>
+                </tr>
+                <% }); %>
+              </tbody>
+          </table>
+        <% } %>
+        <!-- <form action="" id="modal-address" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); z-index: 10; visibility: hidden;">
+              
+        </form> -->
+      </section>
+      <div class="div-button-add-address">
+        <button id="add" class="button-add">Agregar Domicilio</button>
+      </div>
         <form action="/users/profile/<%=user.id%>?_method=DELETE" method="post">
-          <button type="submit" onclick="">Eliminar cuenta</button>
-        </form>
-      </main>
-      <footer>
-      </footer>
-      <script src="/js/profile.js"></script>
+          <button type="submit" id="delete-account">Eliminar cuenta</button>
+        </form>  
+    </main>
+    <footer>
+    </footer>
+    <script src="/js/profile.js"></script>
   </body>

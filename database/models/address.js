@@ -20,10 +20,12 @@ module.exports = (sequelize, DataTypes) => {
   Address.init({
     calle: DataTypes.STRING,
     altura: DataTypes.INTEGER,
-    localidad: DataTypes.INTEGER,
-    provincia: DataTypes.INTEGER,
+    localidad: DataTypes.STRING,
+    provincia: DataTypes.STRING,
     cp: DataTypes.INTEGER,
-    user_id: DataTypes.INTEGER
+    user_id: DataTypes.INTEGER,
+    localidad_id: DataTypes.INTEGER,
+    provincia_id: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Address',
